@@ -1,0 +1,35 @@
+package p;
+
+import org.junit.Before;
+import java.time.LocalDateTime;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class MaletaTest {
+
+	private Maleta maleta;
+	
+	@Before
+	public void crearMaleta() {
+		maleta = new Maleta(20.5, "30x30x30");
+	}
+	
+	@Test
+	public void test() {
+		assertEquals(20.5, maleta.getPeso(), 0.01);
+		assertEquals("30x30x30", maleta.getDimensiones());
+		assertFalse(maleta.estaRecogida());
+		assertNull(maleta.getFechaHoraRecogida());
+	}
+	
+	@Test
+	public void testRegistrarRecogida() {
+		LocalDateTime ahora = LocalDateTime.now();
+		maleta.registrarRecogida(ahora);
+		
+		assertTrue(maleta.estaRecogida());
+		assertEquals(ahora, maleta.getFechaHoraRecogida());
+	}
+
+}
