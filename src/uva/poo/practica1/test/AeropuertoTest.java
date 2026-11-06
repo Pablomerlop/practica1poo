@@ -30,7 +30,7 @@ public class AeropuertoTest {
         vuelo1 = new Vuelo("ISH34", "Madrid", "Chicago", avion, 2);
         
         // Suponiendo que el constructor de CintaRecogida recibe un identificador
-        cinta1 = new CintaRecogida(2000.0, 200); 
+        cinta1 = new CintaRecogida("C1", 2000.0, 200); 
     }
 
     @Test
@@ -70,7 +70,7 @@ public class AeropuertoTest {
     public void testAñadirCintaExcediendoCapacidad() {
         aeropuerto.añadirCinta(cinta1);
         
-        CintaRecogida cinta2 = new CintaRecogida(1500.0, 150);
+        CintaRecogida cinta2 = new CintaRecogida("C2", 1500.0, 150);
         aeropuerto.añadirCinta(cinta2); 
     }
 }

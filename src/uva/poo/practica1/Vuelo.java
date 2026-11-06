@@ -37,6 +37,22 @@ public class Vuelo implements Identificable{
 		return this.estado;
 	}
 	
+	/**
+	 * Devuelve el origen del vuelo.
+	 * @return origen del vuelo
+	 */
+	public String getOrigen() {
+		return this.origen;
+	}
+	
+	/**
+	 * Devuelve el destino del vuelo
+	 * @return destino del vuelo
+	 */
+	public String getDestino() {
+		return this.destino;
+	}
+	
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}

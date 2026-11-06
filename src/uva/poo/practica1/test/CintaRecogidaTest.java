@@ -18,7 +18,8 @@ public class CintaRecogidaTest {
 	
 	@Before
 	public void crearCintaRecogida() {
-		cinta = new CintaRecogida(100.0, 4);
+		cinta = new CintaRecogida("C1", 100.0, 4);
+		cinta.setOperativa(true);
 		maleta1 = new Maleta(20.0, "50x40x10");
 		maleta2 = new Maleta(30.0, "30x30x30");
 		maleta3 = new Maleta(40.0, "20x20x20");
@@ -62,7 +63,7 @@ public class CintaRecogidaTest {
 	
 	@Test(expected = IllegalStateException.class)
 	public void testFueraServicio() {
-		cinta.setEstado("MANTENIMIENTO");
+		cinta.setOperativa(false);
 		cinta.depositarMaleta(maleta1);
 	}
 	

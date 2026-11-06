@@ -30,6 +30,9 @@ public class VueloTest {
 		assertEquals("ISH34", vuelo.getIdentificador());
 		assertEquals(avion, vuelo.getAvion());
 		assertEquals(0, vuelo.getViajeros().length);
+		assertEquals(150, avion.getMaxMaletas());
+		assertEquals("Madrid", vuelo.getOrigen());
+		assertEquals("Chicagto", vuelo.getDestino());
 	}
 	
 	@Test

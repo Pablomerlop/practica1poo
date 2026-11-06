@@ -17,6 +17,14 @@ public class AvionTest {
 	}
 	
 	@Test
+	public void testEstadoInicial() {
+		assertEquals("4563AGH", avion.getMatricula());
+		assertEquals("Airbom 300", avion.getModelo());
+		assertEquals(3000.0, avion.getEquipajeMaxKg(), 0.001);
+		assertEquals(150, avion.getMaxMaletas());		
+	}
+	
+	@Test
 	public void testRedistribuirPlazasBien() {
 		avion.redistribuirPlazas(20, 30, 100);
 		
