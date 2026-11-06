@@ -56,7 +56,7 @@ public class Vuelo implements Identificable{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	public void añadirViajero(Viajero viajero) {
+	public void addViajero(Viajero viajero) {
 		if(numViajeros>= viajeros.length) {
 			throw new IllegalStateException("El vuelo está lleno.");
 		}

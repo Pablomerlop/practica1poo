@@ -27,7 +27,7 @@ public class Aeropuerto {
 		return this.coordenadas;
 	}
 	
-	public void añadirVuelo(Vuelo vuelo) {
+	public void addVuelo(Vuelo vuelo) {
 		if(numVuelos>=vuelos.length) {
 			throw new IllegalStateException("Capacidad máxima de vuelos alcanzada.");
 		}
@@ -68,7 +68,7 @@ public class Aeropuerto {
 		}
 	}
 	
-	public void añadirCinta(CintaRecogida cinta) {
+	public void addCinta(CintaRecogida cinta) {
         if (numCintas >= cintas.length) {
             throw new IllegalStateException("No hay espacio para más cintas de recogida.");
         }

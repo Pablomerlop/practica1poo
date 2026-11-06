@@ -42,35 +42,35 @@ public class AeropuertoTest {
     }
 
     @Test
-    public void testAñadirVuelo() {
-        aeropuerto.añadirVuelo(vuelo1);
+    public void testAddVuelo() {
+        aeropuerto.addVuelo(vuelo1);
         
         assertEquals(1, aeropuerto.getVuelos().length);
         assertEquals(vuelo1, aeropuerto.getVuelos()[0]);
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testAñadirVueloExcediendoCapacidad() {
-        aeropuerto.añadirVuelo(vuelo1);
+    public void testAddVueloExcediendoCapacidad() {
+        aeropuerto.addVuelo(vuelo1);
         
         Avion avion2 = new Avion("99AA99", "Airbus A320", 15, 30, 80, 800.0, 150);
         Vuelo vuelo2 = new Vuelo("IBE123", "Madrid", "Londres", avion2, 2);
-        aeropuerto.añadirVuelo(vuelo2); 
+        aeropuerto.addVuelo(vuelo2); 
     }
 
     @Test
-    public void testAñadirCinta() {
-        aeropuerto.añadirCinta(cinta1);
+    public void testAddCinta() {
+        aeropuerto.addCinta(cinta1);
         
         assertEquals(1, aeropuerto.getCintas().length);
         assertEquals(cinta1, aeropuerto.getCintas()[0]);
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testAñadirCintaExcediendoCapacidad() {
-        aeropuerto.añadirCinta(cinta1);
+    public void testAddCintaExcediendoCapacidad() {
+        aeropuerto.addCinta(cinta1);
         
         CintaRecogida cinta2 = new CintaRecogida("C2", 1500.0, 150);
-        aeropuerto.añadirCinta(cinta2); 
+        aeropuerto.addCinta(cinta2); 
     }
 }

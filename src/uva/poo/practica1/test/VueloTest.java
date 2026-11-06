@@ -36,9 +36,9 @@ public class VueloTest {
 	}
 	
 	@Test
-	public void testAñadirViajero() {
-		vuelo.añadirViajero(viajero1);
-		vuelo.añadirViajero(viajero2);
+	public void testAddViajero() {
+		vuelo.addViajero(viajero1);
+		vuelo.addViajero(viajero2);
 		
 		assertEquals(2, vuelo.getViajeros().length);
 		assertEquals(viajero1, vuelo.getViajeros()[0]);
@@ -47,9 +47,9 @@ public class VueloTest {
 	
 	@Test(expected = IllegalStateException.class)
 	public void testVueloLleno() {
-		vuelo.añadirViajero(viajero1);
-		vuelo.añadirViajero(viajero2);
-		vuelo.añadirViajero(viajero3);
+		vuelo.addViajero(viajero1);
+		vuelo.addViajero(viajero2);
+		vuelo.addViajero(viajero3);
 	}
 
 }
