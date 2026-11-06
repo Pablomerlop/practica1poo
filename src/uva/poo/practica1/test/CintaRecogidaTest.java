@@ -1,7 +1,11 @@
-package p;
+package uva.poo.practica1.test;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import uva.poo.practica1.CintaRecogida;
+import uva.poo.practica1.Maleta;
+
 import static org.junit.Assert.*;
 
 public class CintaRecogidaTest {

@@ -1,6 +1,9 @@
-package p;
+package uva.poo.practica1.test;
 
 import fabricante.externo.tarjeta.TarjetaEmbarque;
+import uva.poo.practica1.Maleta;
+import uva.poo.practica1.Viajero;
+
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

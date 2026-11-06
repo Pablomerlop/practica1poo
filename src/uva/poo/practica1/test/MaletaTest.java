@@ -1,10 +1,12 @@
-package p;
+package uva.poo.practica1.test;
 
 import org.junit.Before;
 import java.time.LocalDateTime;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import uva.poo.practica1.Maleta;
 
 public class MaletaTest {
 

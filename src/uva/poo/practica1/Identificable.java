@@ -1,4 +1,4 @@
-package p;
+package uva.poo.practica1;
 
 public interface Identificable {
 

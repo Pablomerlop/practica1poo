@@ -1,7 +1,12 @@
-package p;
+package uva.poo.practica1.test;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import uva.poo.practica1.Avion;
+import uva.poo.practica1.Viajero;
+import uva.poo.practica1.Vuelo;
+
 import static org.junit.Assert.*;
 
 public class VueloTest {

@@ -1,4 +1,4 @@
-package p;
+package uva.poo.practica1;
 import fabricante.externo.tarjeta.TarjetaEmbarque;
 
 public class Viajero {

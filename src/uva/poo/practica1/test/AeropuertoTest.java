@@ -1,6 +1,11 @@
-package p;
+package uva.poo.practica1.test;
 
 import es.uva.inf.poo.maps.GPSCoordinate;
+import uva.poo.practica1.Aeropuerto;
+import uva.poo.practica1.Avion;
+import uva.poo.practica1.CintaRecogida;
+import uva.poo.practica1.Vuelo;
+
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

@@ -1,9 +1,11 @@
-package p;
+package uva.poo.practica1.test;
 
 import org.junit.Before;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import uva.poo.practica1.Avion;
 
 public class AvionTest {
 

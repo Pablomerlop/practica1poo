@@ -1,4 +1,4 @@
-package p;
+package uva.poo.practica1;
 import es.uva.inf.poo.maps.GPSCoordinate;
 import fabricante.externo.tarjeta.TarjetaEmbarque;
 
