@@ -21,7 +21,7 @@ public class MaletaTest {
 	public void test() {
 		assertEquals(20.5, maleta.getPeso(), 0.01);
 		assertEquals("30x30x30", maleta.getDimensiones());
-		assertFalse(maleta.estaRecogida());
+		assertFalse(maleta.isRecogida());
 		assertNull(maleta.getFechaHoraRecogida());
 	}
 	
@@ -30,7 +30,7 @@ public class MaletaTest {
 		LocalDateTime ahora = LocalDateTime.now();
 		maleta.registrarRecogida(ahora);
 		
-		assertTrue(maleta.estaRecogida());
+		assertTrue(maleta.isRecogida());
 		assertEquals(ahora, maleta.getFechaHoraRecogida());
 	}
 

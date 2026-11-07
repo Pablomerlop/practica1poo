@@ -30,7 +30,7 @@ public class ViajeroTest {
 		assertEquals("1234567Z", viajero.getIdentificador());
 		assertEquals("Antonio", viajero.getNombre());
 		assertEquals("Gil Perez", viajero.getApellidos());
-		assertFalse(viajero.getEmbarcado());
+		assertFalse(viajero.isEmbarcado());
 		assertEquals(0, viajero.getMaletas().length);
 	}
 	
@@ -57,7 +57,7 @@ public class ViajeroTest {
 	public void testEmbarcarUnaVez() {
 		viajero.embarcar(tarjeta);
 		
-		assertTrue(viajero.getEmbarcado());
+		assertTrue(viajero.isEmbarcado());
 		assertTrue(tarjeta.isEmbarcado());
 	}
 	

@@ -1,132 +1,251 @@
 package uva.poo.practica1;
+
 import es.uva.inf.poo.maps.GPSCoordinate;
 import fabricante.externo.tarjeta.TarjetaEmbarque;
+import java.time.LocalDateTime;
 
 public class Aeropuerto {
-	private String ciudad;
+	private static final int LONGITUD_IATA = 3;
+	
+	private String nombre;
+	private String codigoIATA;
+	private String direccion;
+	private String pais;
 	private GPSCoordinate coordenadas;
 	private Vuelo[] vuelos;
 	private int numVuelos;
 	private CintaRecogida[] cintas;
 	private int numCintas;
 	
-	public Aeropuerto(String ciudad, GPSCoordinate coordenadas, int maxVuelos, int maxCintas) {
-		this.ciudad = ciudad;
+	public Aeropuerto(String nombre, String codigoIATA, String direccion, 
+			GPSCoordinate coordenadas, String pais, int maxVuelos, int maxCintas) {
+		if (nombre == null || nombre.trim().isEmpty()) {
+			throw new IllegalArgumentException("El nombre del aeropuerto no puede ser nulo ni vacío.");
+		}
+		if (codigoIATA == null || codigoIATA.length() != LONGITUD_IATA) {
+			throw new IllegalArgumentException("El código IATA debe tener exactamente 3 letras.");
+		}
+		for (int i = 0; i < LONGITUD_IATA; i++) {
+			if (!Character.isLetter(codigoIATA.charAt(i))) {
+				throw new IllegalArgumentException("El código IATA solo puede contener letras.");
+			}
+		}
+		if (direccion == null || direccion.trim().isEmpty()) {
+			throw new IllegalArgumentException("La dirección no puede ser nula ni vacía.");
+		}
+		if (coordenadas == null) {
+			throw new IllegalArgumentException("Las coordenadas GPS no pueden ser null.");
+		}
+		if (pais == null || pais.trim().isEmpty()) {
+			throw new IllegalArgumentException("El país de origen no puede ser nulo ni vacío.");
+		}
+		if (maxVuelos <= 0 || maxCintas <= 0) {
+			throw new IllegalArgumentException("Las capacidades máximas deben ser mayores que cero.");
+		}
+		
+		this.nombre = nombre;
+		this.codigoIATA = codigoIATA.toUpperCase();
+		this.direccion = direccion;
 		this.coordenadas = coordenadas;
+		this.pais = pais;
 		this.vuelos = new Vuelo[maxVuelos];
 		this.numVuelos = 0;
 		this.cintas = new CintaRecogida[maxCintas];
 		this.numCintas = 0;
 	}
 	
-	public String getCiudad() {
-		return this.ciudad;
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public String getCodigoIATA() {
+		return this.codigoIATA;
+	}
+
+	public String getDireccion() {
+		return this.direccion;
 	}
 	
 	public GPSCoordinate getCoordenadas() {
 		return this.coordenadas;
 	}
 	
+	public String getPais() {
+		return this.pais;
+	}
+	
 	public void addVuelo(Vuelo vuelo) {
-		if(numVuelos>=vuelos.length) {
+		if(this.numVuelos >= this.vuelos.length) {
 			throw new IllegalStateException("Capacidad máxima de vuelos alcanzada.");
 		}
 		if(vuelo == null) {
 			throw new IllegalArgumentException("El vuelo no puede ser null.");
 		}
-		vuelos[numVuelos] = vuelo;
-		numVuelos++;
+		if (existeElemento(this.vuelos, this.numVuelos, vuelo.getIdentificador())) {
+			throw new IllegalArgumentException("Ya existe un vuelo con ese código en el aeropuerto.");
+		}
+		vuelos[this.numVuelos] = vuelo;
+		this.numVuelos++;
 	}
 	
 	public void eliminarVuelo(String identificadorVuelo) {
-		int posicion = buscarPosicion(vuelos, numVuelos, identificadorVuelo, "Vuelo no encontrado.");
+		int posicion = buscarPosicion(this.vuelos, this.numVuelos, identificadorVuelo, "Vuelo no encontrado.");
 	
-		for(int i=posicion;i<numVuelos-1;i++) {
-			vuelos[i] = vuelos[i+1];
+		for(int i = posicion; i < this.numVuelos - 1; i++) {
+			this.vuelos[i] = this.vuelos[i + 1];
 		}
-		numVuelos--;
-		vuelos[numVuelos] = null;
+		this.numVuelos--;
+		this.vuelos[this.numVuelos] = null;
 	}
 	
+	public void asignarPasajeroAVuelo(String idVuelo, Viajero viajero) {
+		int posicion = buscarPosicion(this.vuelos, this.numVuelos, idVuelo, "Vuelo no encontrado.");
+		this.vuelos[posicion].addViajero(viajero);
+	}
+	
+	
 	public Vuelo[] getVuelos() {
-		Vuelo[] vuelosCopia = new Vuelo[numVuelos];
-        for (int i = 0; i < numVuelos; i++) {
-            vuelosCopia[i] = vuelos[i];
+		Vuelo[] vuelosCopia = new Vuelo[this.numVuelos];
+        for (int i = 0; i < this.numVuelos; i++) {
+            vuelosCopia[i] = this.vuelos[i];
         }
         return vuelosCopia;
 	}
 	
 	public void realizarEmbarque(String idVuelo, TarjetaEmbarque[] tarjetas) {
-		int posicion = buscarPosicion(vuelos, numVuelos, idVuelo, "Vuelo no encontrado.");
+		if (tarjetas == null) {
+			throw new IllegalArgumentException("El array de tarjetas no puede ser null.");
+		}
 		
-		Viajero[] pasajeros = vuelos[posicion].getViajeros();
-		if(pasajeros.length!=tarjetas.length) {
+		int posicion = buscarPosicion(this.vuelos, this.numVuelos, idVuelo, "Vuelo no encontrado.");
+		
+		Viajero[] pasajeros = this.vuelos[posicion].getViajeros();
+		if(pasajeros.length != tarjetas.length) {
 			throw new IllegalArgumentException("Número de tarjetas no coincide con número de pasajeros.");
 		}
-		for(int i=0; i<pasajeros.length;i++) {
+		for(int i = 0; i < pasajeros.length; i++) {
 			pasajeros[i].embarcar(tarjetas[i]);
 		}
 	}
 	
+	public void realizarEmbarque(String idVuelo) {
+		int posicion = buscarPosicion(this.vuelos, this.numVuelos, idVuelo, "Vuelo no encontrado.");
+		Viajero[] pasajeros = this.vuelos[posicion].getViajeros();
+		for (int i = 0; i < pasajeros.length; i++) {
+			pasajeros[i].embarcar();
+		}
+	}
+	
+	public Vuelo[] obtenerVuelosOperativos() {
+		int contador = 0;
+		for (int i = 0; i < this.numVuelos; i++) {
+			if (this.vuelos[i].isOperativo()) {
+				contador++;
+			}
+		}
+		Vuelo[] operativos = new Vuelo[contador];
+		int indice = 0;
+		for (int i = 0; i < this.numVuelos; i++) {
+			if (this.vuelos[i].isOperativo()) {
+				operativos[indice] = this.vuelos[i];
+				indice++;
+			}
+		}
+		return operativos;
+	}
+
+	public Vuelo[] obtenerVuelosRetrasados(LocalDateTime horaActual) {
+		int contador = 0;
+		for (int i = 0; i < this.numVuelos; i++) {
+			if (this.vuelos[i].isRetrasado(horaActual)) {
+				contador++;
+			}
+		}
+		Vuelo[] retrasados = new Vuelo[contador];
+		int indice = 0;
+		for (int i = 0; i < this.numVuelos; i++) {
+			if (this.vuelos[i].isRetrasado(horaActual)) {
+				retrasados[indice] = this.vuelos[i];
+				indice++;
+			}
+		}
+		return retrasados;
+	}
+	
+	public Vuelo[] obtenerVuelosCancelados() {
+		int contador = 0;
+		for (int i = 0; i < this.numVuelos; i++) {
+			if (this.vuelos[i].isCancelado()) {
+				contador++;
+			}
+		}
+		Vuelo[] cancelados = new Vuelo[contador];
+		int indice = 0;
+		for (int i = 0; i < this.numVuelos; i++) {
+			if (this.vuelos[i].isCancelado()) {
+				cancelados[indice] = this.vuelos[i];
+				indice++;
+			}
+		}
+		return cancelados;
+	}
+	
 	public void addCinta(CintaRecogida cinta) {
-        if (numCintas >= cintas.length) {
+        if (this.numCintas >= this.cintas.length) {
             throw new IllegalStateException("No hay espacio para más cintas de recogida.");
         }
         if (cinta == null) {
             throw new IllegalArgumentException("La cinta no puede ser null.");
         }
-        cintas[numCintas] = cinta;
-        numCintas++;
+        if (existeElemento(this.cintas, this.numCintas, cinta.getIdentificador())) {
+			throw new IllegalArgumentException("Ya existe una cinta con ese identificador.");
+		}
+        
+        this.cintas[this.numCintas] = cinta;
+        this.numCintas++;
     }
 	
-	public Vuelo[] obtenerVuelosPorEstado(String estado) {
-		int contador = 0;
-		for(int i = 0; i<numVuelos; i++) {
-			if(vuelos[i].getEstado().equals(estado)) {
-				contador++;
-			}
-		}
-		
-		Vuelo[] filtrados = new Vuelo[contador];
-		int indice = 0;
-		for(int i=0; i<numVuelos;i++) {
-			if(vuelos[i].getEstado().equals(estado)) {
-				filtrados[indice++] = vuelos[i];
-			}
-		}
-		
-		return filtrados;
-	}
-	
 	public void eliminarCinta(String idCinta) {
-		int posicion = buscarPosicion(cintas, numCintas, idCinta, "Cinta no encontrada.");
+		int posicion = buscarPosicion(this.cintas, this.numCintas, idCinta, "Cinta no encontrada.");
 		
-		for(int i=posicion;i<numCintas-1;i++) {
-			cintas[i] = cintas[i+1];
+		for(int i = posicion; i < this.numCintas-1; i++) {
+			this.cintas[i] = this.cintas[i+1];
 		}
-		numCintas--;
-		cintas[numCintas] = null;
+		this.numCintas--;
+		this.cintas[this.numCintas] = null;
 	}
 	
 	public void asignarCintaAVuelo(String idVuelo, CintaRecogida cinta) {
-		int posicion = buscarPosicion(vuelos, numVuelos, idVuelo, "Vuelo no encontrado.");
-		vuelos[posicion].asignarCinta(cinta);
+		int posicionVuelo = buscarPosicion(this.vuelos, this.numVuelos, idVuelo, "Vuelo no encontrado.");
 		
+		if (cinta == null) {
+			throw new IllegalArgumentException("La cinta no puede ser null.");
+		}
+		
+		buscarPosicion(this.cintas, this.numCintas, cinta.getIdentificador(), "La cinta no pertenece al aeropuerto.");
+		this.vuelos[posicionVuelo].asignarCinta(cinta);
+		
+	}
+	
+	public void descargarEquipajeDeVuelo(String idVuelo) {
+		int posicionVuelo = buscarPosicion(this.vuelos, this.numVuelos, idVuelo, "Vuelo no encontrado.");
+		this.vuelos[posicionVuelo].descargarEquipajeEnCinta();
 	}
 	
 	public CintaRecogida[] consultarCintasOperativas() {
 		int contador = 0;
-		for(int i=0; i<numCintas; i++) {
-			if(cintas[i].getOperativa()) {
+		for (int i = 0; i < this.numCintas; i++) {
+			if (this.cintas[i].isOperativa()) {
 				contador++;
 			}
 		}
 		
 		CintaRecogida[] cintasOperativas = new CintaRecogida[contador];
 		int indice = 0;
-		for(int i=0; i<numCintas; i++) {
-			if(cintas[i].getOperativa()){
-				cintasOperativas[indice++] = cintas[i];
+		for(int i = 0; i < this.numCintas; i++) {
+			if(this.cintas[i].isOperativa()){
+				cintasOperativas[indice] = this.cintas[i];
+				indice++;
 			}
 		}
 		return cintasOperativas;
@@ -134,28 +253,44 @@ public class Aeropuerto {
 	
 	public CintaRecogida[] consultarCintasConEquipajePendiente() {
 		int contador = 0;
-        for (int i = 0; i < numCintas; i++) {
-            if (cintas[i].tieneEquipajePendiente()) contador++;
+        for (int i = 0; i < this.numCintas; i++) {
+            if (this.cintas[i].tieneEquipajePendiente()) contador++;
         }
         
         CintaRecogida[] pendientes = new CintaRecogida[contador];
         int indice = 0;
-        for (int i = 0; i < numCintas; i++) {
-            if (cintas[i].tieneEquipajePendiente()) pendientes[indice++] = cintas[i];
+        for (int i = 0; i < this.numCintas; i++) {
+            if (this.cintas[i].tieneEquipajePendiente()) {
+            	pendientes[indice] = this.cintas[i];
+            	indice++;
+            }
         }
         return pendientes;
 	}
 
     public CintaRecogida[] getCintas() {
-        CintaRecogida[] cintasCopia = new CintaRecogida[numCintas];
-        for (int i = 0; i < numCintas; i++) {
-            cintasCopia[i] = cintas[i];
+        CintaRecogida[] cintasCopia = new CintaRecogida[this.numCintas];
+        for (int i = 0; i < this.numCintas; i++) {
+            cintasCopia[i] = this.cintas[i];
         }
         return cintasCopia;
     }
     
+    private boolean existeElemento(Identificable[] array, int numElementos, String idBuscado) {
+		for (int i = 0; i < numElementos; i++) {
+			if (array[i].getIdentificador().equals(idBuscado)) {
+				return true;
+			}
+		}
+		return false;
+	}
+    
     public int buscarPosicion(Identificable[] array, int numElementos, String idBuscado, String mensajeError) {
-    	for(int i=0; i<numElementos; i++) {
+    	if (idBuscado == null) {
+			throw new IllegalArgumentException("El identificador buscado no puede ser null.");
+		}
+    	
+    	for(int i = 0; i < numElementos; i++) {
     		if(array[i].getIdentificador().equals(idBuscado)) {
     			return i;
     		}
