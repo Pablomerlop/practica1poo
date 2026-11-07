@@ -105,5 +105,3 @@ public class Avion implements Identificable {
 		this.plazasTurista = nuevasTurista;
 	}
 }
-
-
