@@ -52,15 +52,28 @@ public class VueloTest {
 		assertEquals(llegada, vuelo.getFechaHoraLlegada());
 		assertEquals(coordVallsur, vuelo.getPosicionSalida());
 		assertEquals(coordDelibes, vuelo.getPosicionLlegada());
-		assertEquals(1.806, vuelo.getDistancia(), ERROR_ADMISIBLE);
 		assertTrue(vuelo.isOperativo());
 		assertFalse(vuelo.isCancelado());
 		assertFalse(vuelo.isDespegado());
 		assertFalse(vuelo.tieneCintaAsignada());
 		assertFalse(vuelo.isEquipajeDescargado());
+		assertEquals(0, vuelo.getViajeros().length);
+	}
+	
+	@Test
+	public void testGetDistancia() {
+		assertEquals(1.806, vuelo.getDistancia(), ERROR_ADMISIBLE);
+	}
+
+	@Test
+	public void testGetNumViajerosInicial() {
 		assertEquals(0, vuelo.getNumViajeros());
 		assertEquals(0, vuelo.getViajeros().length);
-		assertNotNull(vuelo.toString());
+	}
+
+	@Test
+	public void testToString() {
+		assertTrue(vuelo.toString().contains("ISH34"));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
