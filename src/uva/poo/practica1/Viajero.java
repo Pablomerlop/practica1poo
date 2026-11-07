@@ -3,6 +3,12 @@ package uva.poo.practica1;
 import java.time.LocalDateTime;
 import fabricante.externo.tarjeta.TarjetaEmbarque;
 
+/**
+ * Implementación de un tipo de dato que representa un pasajero con sus maletas y estado de embarque.
+ * 
+ * @author pablmer
+ * @author seraran
+ */
 public class Viajero implements Identificable {
 	private String identificador;
 	private String nombre;
@@ -12,6 +18,16 @@ public class Viajero implements Identificable {
 	private TarjetaEmbarque tarjetaEmbarque;
 	private Vuelo vueloAsignado;
 
+	/**
+	 * Inicialización de un viajero indicando su documento identificativo, nombre, apellidos y límite de maletas.
+	 * 
+	 * @param identificador número de DNI o pasaporte
+	 * @param nombre nombre de pila del viajero
+	 * @param apellidos apellidos del viajero
+	 * @param maxMaletas número máximo de maletas que puede facturar
+	 * @throws IllegalArgumentException cuando identificador, nombre o apellidos son null o cadenas vacías
+	 * @throws IllegalArgumentException cuando maxMaletas &lt; 0
+	 */
 	public Viajero(String identificador, String nombre, String apellidos, int maxMaletas) {
 		if (identificador == null || identificador.trim().isEmpty()) {
 			throw new IllegalArgumentException("El DNI o pasaporte no puede ser nulo ni vacío.");
@@ -39,22 +55,48 @@ public class Viajero implements Identificable {
 		return this.identificador;
 	}
 
+	/**
+	 * Consulta el nombre del viajero.
+	 * 
+	 * @return nombre del viajero
+	 */
 	public String getNombre() {
 		return this.nombre;
 	}
 
+	/**
+	 * Consulta los apellidos del viajero.
+	 * 
+	 * @return apellidos del viajero
+	 */
 	public String getApellidos() {
 		return this.apellidos;
 	}
 
+	/**
+	 * Comprueba si el viajero ya ha embarcado en el vuelo.
+	 * 
+	 * @return true si ha embarcado; false en caso contrario
+	 */
 	public boolean isEmbarcado() {
 		return this.tarjetaEmbarque != null && this.tarjetaEmbarque.isEmbarcado();
 	}
 
+	/**
+	 * Comprueba si el viajero dispone de tarjeta de embarque asignada.
+	 * 
+	 * @return true si tiene tarjeta de embarque; false en caso contrario
+	 */
 	public boolean tieneTarjetaEmbarque() {
 		return this.tarjetaEmbarque != null;
 	}
 
+	/**
+	 * Consulta la tarjeta de embarque del viajero.
+	 * 
+	 * @return tarjeta de embarque asociada
+	 * @throws IllegalStateException cuando el viajero no tiene tarjeta de embarque asignada
+	 */
 	public TarjetaEmbarque getTarjetaEmbarque() {
 		if (!tieneTarjetaEmbarque()) {
 			throw new IllegalStateException("El viajero no tiene tarjeta de embarque asignada.");
@@ -62,6 +104,13 @@ public class Viajero implements Identificable {
 		return this.tarjetaEmbarque;
 	}
 
+	/**
+	 * Asigna una tarjeta de embarque sin usar al viajero.
+	 * 
+	 * @param tarjeta tarjeta de embarque a asignar
+	 * @throws IllegalArgumentException cuando tarjeta == null o ya ha sido usada para embarcar
+	 * @throws IllegalStateException cuando el viajero ya ha embarcado
+	 */
 	public void asignarTarjetaEmbarque(TarjetaEmbarque tarjeta) {
 		if (tarjeta == null) {
 			throw new IllegalArgumentException("La tarjeta de embarque no puede ser null.");
@@ -83,6 +132,14 @@ public class Viajero implements Identificable {
 		this.vueloAsignado = vuelo;
 	}
 
+	/**
+	 * Factura una maleta asociándola al viajero y verificando la capacidad del vuelo si ya tiene uno asignado.
+	 * 
+	 * @param maleta maleta a facturar
+	 * @throws IllegalArgumentException cuando maleta == null
+	 * @throws IllegalStateException cuando el viajero ya ha embarcado, ha alcanzado su límite de maletas,
+	 * la maleta ya fue facturada o recogida, o supera la capacidad del avión del vuelo asignado
+	 */
 	public void facturarMaleta(Maleta maleta) {
 		if (maleta == null) {
 			throw new IllegalArgumentException("La maleta no puede ser null.");
@@ -104,6 +161,14 @@ public class Viajero implements Identificable {
 		this.numMaletas++;
 	}
 
+	/**
+	 * Comprueba si una maleta pertenece al equipaje facturado de este viajero.
+	 * 
+	 * @param maleta maleta a comprobar
+	 * @return true si está facturada por este viajero; false en caso contrario
+	 * @throws IllegalArgumentException cuando maleta == null
+	 * 
+	 */
 	public boolean tieneMaletaFacturada(Maleta maleta) {
 		if (maleta == null) {
 			throw new IllegalArgumentException("La maleta no puede ser null.");
@@ -116,6 +181,16 @@ public class Viajero implements Identificable {
 		return false;
 	}
 
+	/**
+	 * Retira de una cinta de recogida una maleta perteneciente a este viajero.
+	 * 
+	 * @param cinta cinta de recogida donde se encuentra la maleta
+	 * @param maleta maleta propia a recoger
+	 * @param fechaHoraRecogida fecha y hora de la recogida
+	 * @throws IllegalArgumentException cuando alguno de los argumentos es null, la maleta no pertenece
+	 * al viajero o no se encuentra en la cinta
+	 * @throws IllegalStateException cuando la cinta está vacía
+	 */
 	public void recogerMaleta(CintaRecogida cinta, Maleta maleta, LocalDateTime fechaHoraRecogida) {
 		if (cinta == null) {
 			throw new IllegalArgumentException("La cinta de recogida no puede ser null.");
@@ -132,10 +207,20 @@ public class Viajero implements Identificable {
 		cinta.retirarMaleta(maleta, fechaHoraRecogida);
 	}
 
+	/**
+	 * Consulta el número de maletas facturadas por el viajero.
+	 * 
+	 * @return cantidad de maletas facturadas
+	 */
 	public int getNumMaletas() {
 		return this.numMaletas;
 	}
 
+	/**
+	 * Consulta el peso total en kilogramos de todas las maletas facturadas por el viajero.
+	 * 
+	 * @return peso total del equipaje en kilogramos
+	 */
 	public double getPesoTotalEquipaje() {
 		double pesoTotal = 0.0;
 		for (int i = 0; i < this.numMaletas; i++) {
@@ -144,6 +229,11 @@ public class Viajero implements Identificable {
 		return pesoTotal;
 	}
 
+	/**
+	 * Consulta las maletas facturadas asociadas al viajero.
+	 * 
+	 * @return array con las maletas facturadas del viajero
+	 */
 	public Maleta[] getMaletas() {
 		Maleta[] maletasCopia = new Maleta[this.numMaletas];
 		for (int i = 0; i < this.numMaletas; i++) {
@@ -152,6 +242,13 @@ public class Viajero implements Identificable {
 		return maletasCopia;
 	}
 
+	/**
+	 * Autoriza el embarque utilizando la tarjeta previamente asignada al viajero.
+	 * 
+	 * @param credencialAutorizacion credencial de seguridad para autorizar el embarque
+	 * @throws IllegalArgumentException cuando la credencial es null, vacía o incorrecta
+	 * @throws IllegalStateException cuando el viajero no tiene tarjeta asignada o ya ha embarcado
+	 */
 	public void embarcar(String credencialAutorizacion) {
 		if (credencialAutorizacion == null || credencialAutorizacion.trim().isEmpty()) {
 			throw new IllegalArgumentException("La credencial de autorización no puede ser nula ni vacía.");
@@ -165,6 +262,14 @@ public class Viajero implements Identificable {
 		this.tarjetaEmbarque.autorizaEmbarque(credencialAutorizacion);
 	}
 
+	/**
+	 * Autoriza el embarque del viajero proporcionando la tarjeta de embarque y la credencial de autorización.
+	 * 
+	 * @param tarjeta tarjeta de embarque del viajero
+	 * @param credencialAutorizacion credencial de seguridad para autorizar el embarque
+	 * @throws IllegalArgumentException cuando tarjeta es null, o la credencial es null, vacía o incorrecta
+	 * @throws IllegalStateException cuando el viajero o la tarjeta ya figuran como embarcados
+	 */
 	public void embarcar(TarjetaEmbarque tarjeta, String credencialAutorizacion) {
 		if (tarjeta == null) {
 			throw new IllegalArgumentException("Se necesita una tarjeta de embarque.");

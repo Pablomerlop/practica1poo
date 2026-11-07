@@ -6,6 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 import uva.poo.practica1.Avion;
 
+/**
+ * Pruebas unitarias de la clase Avion.
+ * 
+ * @author pablmer
+ * @author seraran
+ */
 public class AvionTest {
 
 	private static final double DELTA = 0.0001;

@@ -8,6 +8,12 @@ import org.junit.Test;
 import uva.poo.practica1.CintaRecogida;
 import uva.poo.practica1.Maleta;
 
+/**
+ * Pruebas unitarias de la clase CintaRecogida.
+ * 
+ * @author pablmer
+ * @author seraran
+ */
 public class CintaRecogidaTest {
 
 	private static final double DELTA = 0.0001;

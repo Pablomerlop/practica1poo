@@ -7,6 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 import uva.poo.practica1.Maleta;
 
+/**
+ * Pruebas unitarias de la clase Maleta.
+ * 
+ * @author pablmer
+ * @author seraran
+ */
 public class MaletaTest {
 
 	private static final double DELTA = 0.0001;

@@ -14,6 +14,12 @@ import uva.poo.practica1.Maleta;
 import uva.poo.practica1.Viajero;
 import uva.poo.practica1.Vuelo;
 
+/**
+ * Pruebas unitarias de la clase Aeropuerto.
+ * 
+ * @author pablmer
+ * @author seraran
+ */
 public class AeropuertoTest {
 
 	private Aeropuerto aeropuerto;

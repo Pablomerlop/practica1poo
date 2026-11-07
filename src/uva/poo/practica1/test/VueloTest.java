@@ -12,6 +12,12 @@ import uva.poo.practica1.Maleta;
 import uva.poo.practica1.Viajero;
 import uva.poo.practica1.Vuelo;
 
+/**
+ * Pruebas unitarias de la clase Vuelo.
+ * 
+ * @author pablmer
+ * @author seraran
+ */
 public class VueloTest {
 
 	private static final double DELTA = 0.0001;

@@ -10,6 +10,12 @@ import uva.poo.practica1.CintaRecogida;
 import uva.poo.practica1.Maleta;
 import uva.poo.practica1.Viajero;
 
+/**
+ * Pruebas unitarias de la clase Viajero.
+ * 
+ * @author pablmer
+ * @author seraran
+ */
 public class ViajeroTest {
 
 	private static final double DELTA = 0.0001;
