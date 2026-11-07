@@ -64,9 +64,6 @@ public class Maleta {
 	}
 	
 	void marcarFacturada() {
-		if (this.facturada) {
-			throw new IllegalStateException("La maleta ya ha sido facturada.");
-		}
 		this.facturada = true;
 	}
 	
